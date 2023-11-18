@@ -1,11 +1,5 @@
 <?php
 
-/**
-* Controller Student
-* Author: Dzu 
-* Mail: dzu6996@gmail.com
-**/
-
 require_once('models/model_student.php');
 require_once 'views/view_student.php';
 
@@ -30,11 +24,11 @@ class Controller_Student
 		$profiles = new Model_Student();
 		return $profiles->get_profiles($_SESSION['username']);
 	}
-	public function get_question($ID)
-	{
-		$answer = new Model_Student();
-		return $answer->get_question($ID);
-	}
+	// public function get_question($ID)
+	// {
+	// 	$answer = new Model_Student();
+	// 	return $answer->get_question($ID);
+	// }
 	public function get_doing_exam()
 	{
 		return $this->info['doing_exam'];
@@ -306,13 +300,13 @@ class Controller_Student
 		}
 	}
 
-	public function show_about()
-	{
-		$view = new View_Student();
-		$view->show_head_left($this->info);
-		$view->show_about();
-		$view->show_foot();
-	}
+	// public function show_about()
+	// {
+	// 	$view = new View_Student();
+	// 	$view->show_head_left($this->info);
+	// 	$view->show_about();
+	// 	$view->show_foot();
+	// }
 	public function show_profiles()
 	{
 		$view = new View_Student();

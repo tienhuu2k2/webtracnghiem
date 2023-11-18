@@ -1,20 +1,13 @@
 <?php
 
-/**
- * Model Student
- * Author: Dzu
- * Mail: dzu6996@gmail.com
- **/ 
-
 include_once('config/database.php');
 
 class Model_Student extends Database
 {
 	public function get_profiles($username)
 	{
-		$sql = "SELECT students.student_id as ID,students.username,students.name,students.email,students.avatar,students.class_id,students.birthday,students.last_login,genders.gender_id,genders.gender_detail,classes.grade_id,students.doing_exam,students.time_remaining FROM `students`
+		$sql = "SELECT students.student_id as ID,students.username,students.name,students.email,students.avatar,students.birthday,students.last_login,genders.gender_id,genders.gender_detail,students.doing_exam,students.time_remaining FROM `students`
 		INNER JOIN genders ON genders.gender_id = students.gender_id
-		INNER JOIN classes ON classes.class_id = students.class_id
 		WHERE username = '$username'";
 		$this->set_query($sql);
 		return $this->load_row();
@@ -101,9 +94,7 @@ class Model_Student extends Database
 	public function get_list_tests()
 	{
 		$sql = "
-		SELECT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,grades.detail as grade,subjects.subject_detail,statuses.status_id,statuses.detail as status FROM `tests`
-		INNER JOIN grades ON grades.grade_id = tests.grade_id
-		INNER JOIN subjects ON subjects.subject_id = tests.subject_id
+		SELECT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,statuses.status_id,statuses.detail as status FROM `tests`
 		INNER JOIN statuses ON statuses.status_id = tests.status_id";
 		$this->set_query($sql);
 		return $this->load_rows();

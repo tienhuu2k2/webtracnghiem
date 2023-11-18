@@ -37,11 +37,11 @@ class View_Student
 	{
 		include 'res/templates/student/result.php';
 	}
-	public function show_about()
-    {
-        require_once 'config/config.php';
-        include 'res/templates/shared/about.php';
-    }
+	// public function show_about()
+    // {
+    //     require_once 'config/config.php';
+    //     include 'res/templates/shared/about.php';
+    // }
     public function show_foot()
     {
         require_once 'config/config.php';
