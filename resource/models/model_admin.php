@@ -40,7 +40,7 @@ class Model_Admin extends Database
     }
     public function update_last_login($admin_id)
     {
-        $sql="UPDATE admins set last_login=NOW() where admin_id='$admin_id'";
+        $sql = "UPDATE admins set last_login=NOW() where admin_id='$admin_id'";
         $this->set_query($sql);
         $this->execute_return_status();
     }
@@ -84,22 +84,22 @@ class Model_Admin extends Database
     {
         $sql = "SELECT username FROM admins WHERE admin_id = '$admin_id'";
         $this->set_query($sql);
-        if ($this->load_row()=='') {
+        if ($this->load_row() == '') {
             return false;
         }
-        $sql="UPDATE admins set password='$password', name ='$name', gender_id ='$gender_id', birthday ='$birthday' where admin_id='$admin_id'";
+        $sql = "UPDATE admins set password='$password', name ='$name', gender_id ='$gender_id', birthday ='$birthday' where admin_id='$admin_id'";
         $this->set_query($sql);
         $this->execute_return_status();
         return true;
     }
     public function del_admin($admin_id)
     {
-        $sql="DELETE FROM admins where admin_id='$admin_id'";
+        $sql = "DELETE FROM admins where admin_id='$admin_id'";
         $this->set_query($sql);
         $this->execute_return_status();
         $sql = "SELECT username FROM admins WHERE admin_id = '$admin_id'";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         return true;
@@ -108,14 +108,14 @@ class Model_Admin extends Database
     {
         $sql = "SELECT admin_id FROM admins WHERE username = '$username' OR email = '$email'";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         //reset AUTO_INCREMENT
         $sql = "ALTER TABLE `admins` AUTO_INCREMENT=1";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="INSERT INTO admins (name, username, password, email, birthday, gender_id) VALUES ('$name', '$username', '$password', '$email', '$birthday', '$gender')";
+        $sql = "INSERT INTO admins (name, username, password, email, birthday, gender_id) VALUES ('$name', '$username', '$password', '$email', '$birthday', '$gender')";
         $this->set_query($sql);
         return $this->execute_return_status();
         // return true;
@@ -130,7 +130,7 @@ class Model_Admin extends Database
     }
     public function edit_student($student_id, $birthday, $password, $name, $gender)
     {
-        $sql="UPDATE students set birthday='$birthday', password='$password', name ='$name', gender_id = '$gender' where student_id='$student_id'";
+        $sql = "UPDATE students set birthday='$birthday', password='$password', name ='$name', gender_id = '$gender' where student_id='$student_id'";
         $this->set_query($sql);
         $this->execute_return_status();
         // $sql="UPDATE scores set  where student_id='$student_id'";
@@ -139,15 +139,15 @@ class Model_Admin extends Database
     }
     public function del_student($student_id)
     {
-        $sql="DELETE FROM scores where student_id='$student_id'";
+        $sql = "DELETE FROM scores where student_id='$student_id'";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="DELETE FROM students where student_id='$student_id'";
+        $sql = "DELETE FROM students where student_id='$student_id'";
         $this->set_query($sql);
         $this->execute_return_status();
         $sql = "SELECT username FROM students WHERE student_id = '$student_id'";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         return true;
@@ -156,14 +156,14 @@ class Model_Admin extends Database
     {
         $sql = "SELECT student_id FROM students WHERE username = '$username' OR email = '$email";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         //reset AUTO_INCREMENT
         $sql = "ALTER TABLE `students` AUTO_INCREMENT=1";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="INSERT INTO students (username,password,name,email,birthday,gender_id) VALUES ('$username','$password','$name','$email','$birthday','$gender')";
+        $sql = "INSERT INTO students (username,password,name,email,birthday,gender_id) VALUES ('$username','$password','$name','$email','$birthday','$gender')";
         $this->set_query($sql);
         return $this->execute_return_status();
         // return true;
@@ -181,7 +181,7 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->load_rows();
     }
-    public function list_quest_of_unit($class_id,$unit,$limit)
+    public function list_quest_of_unit($class_id, $unit, $limit)
     {
         $sql = "SELECT * FROM `questions` WHERE `class_id` = $class_id and `unit` = $unit ORDER BY RAND() LIMIT $limit";
         $this->set_query($sql);
@@ -189,30 +189,30 @@ class Model_Admin extends Database
     }
     public function edit_class($class_id, $class_name)
     {
-        $sql="UPDATE classes set class_name='$class_name'  where class_id ='$class_id'";
+        $sql = "UPDATE classes set class_name='$class_name'  where class_id ='$class_id'";
         $this->set_query($sql);
         $this->execute_return_status();
     }
     public function toggle_test_status($test_code, $status_id)
     {
-        $sql="UPDATE tests set status_id='$status_id' where test_code ='$test_code'";
+        $sql = "UPDATE tests set status_id='$status_id' where test_code ='$test_code'";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
     public function del_class($class_id)
     {
-        $sql="DELETE FROM chats where class_id='$class_id'";
+        $sql = "DELETE FROM chats where class_id='$class_id'";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="DELETE FROM student_notifications where class_id='$class_id'";
+        $sql = "DELETE FROM student_notifications where class_id='$class_id'";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="DELETE FROM classes where class_id='$class_id'";
+        $sql = "DELETE FROM classes where class_id='$class_id'";
         $this->set_query($sql);
         $this->execute_return_status();
         $sql = "SELECT class_name FROM classes WHERE class_id = '$class_id'";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         return true;
@@ -221,21 +221,21 @@ class Model_Admin extends Database
     {
         $sql = "SELECT class_id FROM classes WHERE class_name = '$class_name'";
         $this->set_query($sql);
-        if ($this->load_row()!='') {
+        if ($this->load_row() != '') {
             return false;
         }
         //reset AUTO_INCREMENT
         $sql = "ALTER TABLE `classes` AUTO_INCREMENT=1";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql="INSERT INTO classes (class_name) VALUES ('$class_name')";
+        $sql = "INSERT INTO classes (class_name) VALUES ('$class_name')";
         $this->set_query($sql);
         return $this->execute_return_status();
         // return true;
     }
     public function add_quest_to_test($test_code, $question_id)
     {
-        $sql="INSERT INTO quest_of_test (test_code,question_id) VALUES ('$test_code','$question_id')";
+        $sql = "INSERT INTO quest_of_test (test_code,question_id) VALUES ('$test_code','$question_id')";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
@@ -273,37 +273,37 @@ class Model_Admin extends Database
     }
     public function edit_question($question_id, $question_content, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer)
     {
-        $sql="UPDATE questions set question_content='$question_content', class_id='$class_id', unit ='$unit',answer_a ='$answer_a',answer_b ='$answer_b',answer_c ='$answer_c',answer_d ='$answer_d',correct_answer ='$correct_answer' where question_id = '$question_id'";
+        $sql = "UPDATE questions set question_content='$question_content', class_id='$class_id', unit ='$unit',answer_a ='$answer_a',answer_b ='$answer_b',answer_c ='$answer_c',answer_d ='$answer_d',correct_answer ='$correct_answer' where question_id = '$question_id'";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
     public function del_question($question_id)
     {
-        $sql="DELETE FROM questions where question_id='$question_id'";
+        $sql = "DELETE FROM questions where question_id='$question_id'";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
     public function add_question($question_detail, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer)
     {
-        $sql="INSERT INTO questions (class_id,unit,question_content,answer_a,answer_b,answer_c,answer_d,correct_answer) VALUES ($class_id,$unit,'$question_detail','$answer_a','$answer_b','$answer_c','$answer_d','$correct_answer')";
+        $sql = "INSERT INTO questions (class_id,unit,question_content,answer_a,answer_b,answer_c,answer_d,correct_answer) VALUES ($class_id,$unit,'$question_detail','$answer_a','$answer_b','$answer_c','$answer_d','$correct_answer')";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
-    public function add_test($test_code,$test_name, $password, $class_id, $total_questions, $time_to_do, $note)
+    public function add_test($test_code, $test_name, $password, $class_id, $total_questions, $time_to_do, $note)
     {
-        $sql="INSERT INTO tests (test_code,test_name,password,class_id,total_questions,time_to_do,note,status_id) VALUES ($test_code,'$test_name', '$password', $class_id, $total_questions, $time_to_do, '$note', 2)";
+        $sql = "INSERT INTO tests (test_code,test_name,password,class_id,total_questions,time_to_do,note,status_id) VALUES ($test_code,'$test_name', '$password', $class_id, $total_questions, $time_to_do, '$note', 2)";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
-    public function insert_notification($notification_id,$username, $name, $notification_title, $notification_content)
+    public function insert_notification($notification_id, $username, $name, $notification_title, $notification_content)
     {
-        $sql="INSERT INTO notifications (notification_id,username,name,notification_title,notification_content,time_sent) VALUES ($notification_id,'$username','$name','$notification_title','$notification_content',NOW())";
+        $sql = "INSERT INTO notifications (notification_id,username,name,notification_title,notification_content,time_sent) VALUES ($notification_id,'$username','$name','$notification_title','$notification_content',NOW())";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
     public function notify_class($ID, $class_id)
     {
-        $sql="INSERT INTO student_notifications (notification_id,class_id) VALUES ('$ID','$class_id')";
+        $sql = "INSERT INTO student_notifications (notification_id,class_id) VALUES ('$ID','$class_id')";
         $this->set_query($sql);
         $this->execute_return_status();
     }
@@ -327,14 +327,14 @@ class Model_Admin extends Database
     }
     public function update_profiles($username, $name, $email, $password, $gender, $birthday)
     {
-        $sql="UPDATE admins set email='$email',password='$password', name ='$name', gender_id ='$gender', birthday ='$birthday' where username='$username'";
+        $sql = "UPDATE admins set email='$email',password='$password', name ='$name', gender_id ='$gender', birthday ='$birthday' where username='$username'";
         $this->set_query($sql);
         $this->execute_return_status();
         return true;
     }
     public function update_avatar($avatar, $username)
     {
-        $sql="UPDATE admins set avatar='$avatar' where username='$username'";
+        $sql = "UPDATE admins set avatar='$avatar' where username='$username'";
         $this->set_query($sql);
         $this->execute_return_status();
     }

@@ -1,11 +1,5 @@
 <?php
 
-/**
- * View Login
- * Author: Dzu
- * Mail: dzu6996@gmail.com
- **/
-
 class View_Login
 {
     public function show_login()

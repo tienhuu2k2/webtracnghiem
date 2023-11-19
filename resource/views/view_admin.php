@@ -1,11 +1,5 @@
 <?php
 
-/**
- * View Admin
- * Author: Dzu
- * Mail: dzu6996@gmail.com
- **/
-
 class View_Admin
 {
     public function show_head_left($info)

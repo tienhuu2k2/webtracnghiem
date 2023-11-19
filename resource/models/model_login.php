@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Model Login
- * Author: Dzu
- * Mail: dzu6996@gmail.com
- **/
-
 include_once('config/database.php');
 
 class Model_Login extends Database
