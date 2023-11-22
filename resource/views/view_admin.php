@@ -52,11 +52,6 @@ class View_Admin
     {
         include 'res/templates/admin/units_panel.html';
     }
-    // public function show_about()
-    // {
-    //     require_once 'config/config.php';
-    //     include 'res/templates/shared/about.php';
-    // }
     public function show_profiles($profile)
     {
         include 'res/templates/shared/profiles.php';

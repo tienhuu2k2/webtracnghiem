@@ -24,11 +24,6 @@ class Controller_Student
 		$profiles = new Model_Student();
 		return $profiles->get_profiles($_SESSION['username']);
 	}
-	// public function get_question($ID)
-	// {
-	// 	$answer = new Model_Student();
-	// 	return $answer->get_question($ID);
-	// }
 	public function get_doing_exam()
 	{
 		return $this->info['doing_exam'];
@@ -119,35 +114,35 @@ class Controller_Student
 			}
 		}
 	}
-	public function check_password()
-	{
-		$result = array();
-		$model = new Model_Student();
-		$test_code = isset($_POST['test_code']) ? $_POST['test_code'] : '493205';
-		$password = isset($_POST['password']) ? md5($_POST['password']) : 'e10adc3949ba59abbe56e057f20f883e';
-		if($password != $model->get_test($test_code)->password) {
-			$result['status_value'] = "Sai mật khẩu";
-			$result['status'] = 0;
-		} else {
-			$list_quest = $model->get_quest_of_test($test_code);
-			foreach ($list_quest as $quest) {
-				$array = array();
-				$array[0] = $quest->answer_a;
-				$array[1] = $quest->answer_b;
-				$array[2] = $quest->answer_c;
-				$array[3] = $quest->answer_d;
-				shuffle($array);
-				$ID = rand(1,time())+rand(100000,999999);
-				$time = $model->get_test($test_code)->time_to_do.':00';
-				$model->add_student_quest($this->info['ID'], $ID, $test_code, $quest->question_id, $array[0], $array[1], $array[2], $array[3]);
-				$model->update_doing_exam($test_code,$time,$this->info['ID']);
-			}
-			$result['status_value'] = "Thành công. Chuẩn bị chuyển trang!";
-			$result['status'] = 1;
-		}
-		echo json_encode($result);
+	// public function check_password()
+	// {
+	// 	$result = array();
+	// 	$model = new Model_Student();
+	// 	$test_code = isset($_POST['test_code']) ? $_POST['test_code'] : '493205';
+	// 	$password = isset($_POST['password']) ? md5($_POST['password']) : 'e10adc3949ba59abbe56e057f20f883e';
+	// 	if($password != $model->get_test($test_code)->password) {
+	// 		$result['status_value'] = "Sai mật khẩu";
+	// 		$result['status'] = 0;
+	// 	} else {
+	// 		$list_quest = $model->get_quest_of_test($test_code);
+	// 		foreach ($list_quest as $quest) {
+	// 			$array = array();
+	// 			$array[0] = $quest->answer_a;
+	// 			$array[1] = $quest->answer_b;
+	// 			$array[2] = $quest->answer_c;
+	// 			$array[3] = $quest->answer_d;
+	// 			shuffle($array);
+	// 			$ID = rand(1,time())+rand(100000,999999);
+	// 			$time = $model->get_test($test_code)->time_to_do.':00';
+	// 			$model->add_student_quest($this->info['ID'], $ID, $test_code, $quest->question_id, $array[0], $array[1], $array[2], $array[3]);
+	// 			$model->update_doing_exam($test_code,$time,$this->info['ID']);
+	// 		}
+	// 		$result['status_value'] = "Thành công. Chuẩn bị chuyển trang!";
+	// 		$result['status'] = 1;
+	// 	}
+	// 	echo json_encode($result);
 		
-	}
+	// }
 	public function send_chat()
 	{
 		$result = array();
@@ -321,4 +316,11 @@ class Controller_Student
 		$view->show_404();
 		$view->show_foot();
 	}
+
+
+	public function add_student($name, $username, $password, $email, $birthday, $gender, $class_id)
+    {
+        $add = new Model_Student();
+        return $add->add_student($name, $username, $password, $email, $birthday, $gender, $class_id);
+    }
 }

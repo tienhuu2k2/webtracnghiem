@@ -14,6 +14,7 @@ class Model_Login extends Database
         $this->set_query($sql);
         return $this->load_row();
     }
+
     public function get_password($username)
     {
         $sql = "SELECT permission,password FROM students WHERE username = '$username' OR email = '$username'
@@ -36,13 +37,13 @@ class Model_Login extends Database
         if ($get) {
             $password = rand(10000000, 99999999);
             $get->password = $password;
-            if ($get->permission==1) {
+            if ($get->permission == 1) {
                 $get->permission = 'admins';
             }
-            if ($get->permission==2) {
+            if ($get->permission == 2) {
                 $get->permission = 'teachers';
             }
-            if ($get->permission==3) {
+            if ($get->permission == 3) {
                 $get->permission = 'students';
             }
             return $get;

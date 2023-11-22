@@ -48,16 +48,14 @@
                 </div>
                 <div class="collapsible-body list">
                     <a href="index.php?action=show_admins_panel" class="menu-list cursor">Quản Lý Admin</a>
-                    <a href="index.php?action=show_classes_panel" class="menu-list cursor">Quản Lý Lớp</a>
-                    <a href="index.php?action=show_students_panel" class="menu-list cursor">Quản Lý Học Sinh</a>
+                    <a href="index.php?action=show_classes_panel" class="menu-list cursor">Quản Lý Hạng mục thi</a>
+                    <a href="index.php?action=show_students_panel" class="menu-list cursor">Quản Lý Người dùng</a>
                     <a href="index.php?action=show_questions_panel" class="menu-list cursor">Quản Lý Câu Hỏi</a>
                     <a href="index.php?action=show_tests_panel" class="menu-list cursor">Quản Lý Bài Kiểm Tra</a>
                 </div>
             </li>
             <a href="index.php?action=show_notifications_panel" class="collapsible-header font-color"><i
                     class="material-icons">send</i>Gửi Thông Báo</a>
-            <!-- <a href="index.php?action=show_about" class="collapsible-header font-color"><i
-                    class="material-icons">insert_comment</i>Liên Hệ</a> -->
         </ul>
     </div>
     <a data-target="modal1" class="sidebar-show logout modal-trigger waves-effect" id="logout">Đăng Xuất</a>

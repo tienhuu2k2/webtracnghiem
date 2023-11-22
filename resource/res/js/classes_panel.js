@@ -19,8 +19,6 @@ $(function() {
     });
     $('table').on('click', 'a.modal-trigger', function(){
         $('select').select();
-        // select_teacher();
-        // select_grade();
         var elem = document.querySelector(this.id);
         var instance = M.Modal.init(elem);
         var instance = M.Modal.getInstance(elem);
@@ -160,8 +158,6 @@ function submit_add_class(data) {
             get_list_classes();
             $('.modal').modal();
             $('select').select();
-            // select_teacher();
-            // select_grade();
         }
         $('#preload').addClass('hidden');
     };
@@ -176,9 +172,6 @@ function submit_del_class(data) {
         var json_data = $.parseJSON(result);
         show_status(json_data);
         if (json_data.status) {
-            // $('#class-' + json_data.class_id).hide('400', function() {
-            //     this.remove();
-            // });
             $('#table_classes').DataTable().destroy();
             get_list_classes();
         }

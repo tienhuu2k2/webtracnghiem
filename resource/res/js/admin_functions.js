@@ -78,47 +78,47 @@ function valid_username_or_email(value, elem) {
 }
 
 
-function select_teacher() {
-    var url = "index.php?action=get_list_teachers";
-    var success = function(result) {
-        var json_data = $.parseJSON(result);
-        var sl = $('select[name=teacher_id]');
-        sl.empty();
-        $.each(json_data, function(key, value) {
-            sl.append('<option value="' + value.teacher_id + '">' + value.name + '</option>');
-        });
-        $('select').select();
-    };
-    $.get(url, success);
-}
+// function select_teacher() {
+//     var url = "index.php?action=get_list_teachers";
+//     var success = function(result) {
+//         var json_data = $.parseJSON(result);
+//         var sl = $('select[name=teacher_id]');
+//         sl.empty();
+//         $.each(json_data, function(key, value) {
+//             sl.append('<option value="' + value.teacher_id + '">' + value.name + '</option>');
+//         });
+//         $('select').select();
+//     };
+//     $.get(url, success);
+// }
 
-function select_grade() {
-    var url = "index.php?action=get_list_grades";
-    var success = function(result) {
-        var json_data = $.parseJSON(result);
-        var sl = $('select[name=grade_id]');
-        sl.empty();
-        $.each(json_data, function(key, value) {
-            sl.append('<option value="' + value.grade_id + '">' + value.detail + '</option>');
-        });
-        $('select').select();
-    };
-    $.get(url, success);
-}
+// function select_grade() {
+//     var url = "index.php?action=get_list_grades";
+//     var success = function(result) {
+//         var json_data = $.parseJSON(result);
+//         var sl = $('select[name=grade_id]');
+//         sl.empty();
+//         $.each(json_data, function(key, value) {
+//             sl.append('<option value="' + value.grade_id + '">' + value.detail + '</option>');
+//         });
+//         $('select').select();
+//     };
+//     $.get(url, success);
+// }
 
-function select_subject() {
-    var url = "index.php?action=get_list_subjects";
-    var success = function(result) {
-        var json_data = $.parseJSON(result);
-        var sl = $('select[name=subject_id]');
-        sl.empty();
-        $.each(json_data, function(key, value) {
-            sl.append('<option value="' + value.subject_id + '">' + value.subject_detail + '</option>');
-        });
-        $('select').select();
-    };
-    $.get(url, success);
-}
+// function select_subject() {
+//     var url = "index.php?action=get_list_subjects";
+//     var success = function(result) {
+//         var json_data = $.parseJSON(result);
+//         var sl = $('select[name=subject_id]');
+//         sl.empty();
+//         $.each(json_data, function(key, value) {
+//             sl.append('<option value="' + value.subject_id + '">' + value.subject_detail + '</option>');
+//         });
+//         $('select').select();
+//     };
+//     $.get(url, success);
+// }
 
 function select_class(data) {
     var url = "index.php?action=get_list_classes";

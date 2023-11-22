@@ -27,6 +27,99 @@ function submit_login() {
     };
     $.post(url, data, success);
 }
+
+function submit_register() {
+    $('#loading').css('display', 'inline');
+    var url = "index.php?action=submit_register";
+    
+    // Lấy giá trị từ các trường input
+    var username = $("#username").val();
+    var name = $("#name").val();
+    var email = $("#email").val();
+    var password = $("#password").val();
+    var gender = $("input[name='gender']:checked").val();
+    var birthday = $("#birthday").val();
+    var class_student = $("#class_student").val();
+
+
+
+    // Log giá trị của các trường input
+    console.log("Username: " + username);
+    console.log("Name: " + name);
+    console.log("Email: " + email);
+    console.log("Password: " + password);
+    console.log("Gender: " + gender);
+    console.log("Birthday: " + birthday);
+    console.log("class_student: " + class_student);
+    
+
+    var data = {
+        username: username,
+        name: name,
+        email: email,
+        password: password,
+        gender: gender,
+        birthday: birthday,
+        class_student: class_student,
+    };
+
+    var success = function(result) {
+        console.log(result); // Thêm dòng này
+        var json_data = $.parseJSON(result);
+        show_status(json_data);
+        $('#loading').css('display', 'none');
+    };
+
+    $.post(url, data, success);
+}
+
+// $("#avatar").on("change", function() {
+//     // Lấy đối tượng File
+//     var file = $(this)[0].files[0];
+    
+//     // Log tên file
+//     console.log("Avatar: " + file.name);
+
+//     // Nếu bạn muốn lưu giá trị vào biến Avatar, hãy thực hiện ở đây
+//     // var avatar = file;
+// });
+
+// // Cập nhật hàm submit_register
+// function submit_register() {
+//     $('#loading').css('display', 'inline');
+//     var url = "index.php?action=submit_register";
+    
+//     // Lấy giá trị từ các trường input
+//     var username = $("#username").val();
+//     var name = $("#name").val();
+//     var email = $("#email").val();
+//     var password = $("#password").val();
+//     var gender = $("input[name='gender']:checked").val();
+//     var birthday = $("#birthday").val();
+
+//     // Nếu bạn muốn lấy giá trị Avatar ở đây, hãy thực hiện
+//     var avatar = $("#avatar")[0].files[0];
+
+//     var data = {
+//         username: username,
+//         name: name,
+//         email: email,
+//         password: password,
+//         gender: gender,
+//         birthday: birthday,
+//         avatar: avatar,
+//     };
+
+//     var success = function(result) {
+//         console.log(result);
+//         var json_data = $.parseJSON(result);
+//         show_status(json_data);
+//         $('#loading').css('display', 'none');
+//     };
+
+//     $.post(url, data, success);
+// }
+
 function reload() {
     $('#reload').css('display', 'none');
     $('#field_username').css('display', 'inline');
@@ -54,19 +147,7 @@ function submit_password() {
     $.post(url, data, success);
 }
 
-// function submit_register() {
-//     $('#loading').css('display', 'inline');
-//     var url = "index.php?action=submit_register";
-//     var data = {
-//         username: $("#username").val()
-//     };
-//     var success = function(result) {
-//         var json_data = $.parseJSON(result);
-//         show_status(json_data);
-//         $('#loading').css('display', 'none');
-//     };
-//     $.post(url, data, success);
-// }
+
 
 function show_status(json_data) {
     if (json_data.status) {

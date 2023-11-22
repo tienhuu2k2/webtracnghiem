@@ -2,16 +2,14 @@ $(function() {
     $('#table_questions').DataTable().destroy();
     get_list_questions();
     $('.tabs').tabs();
-    $('#add_question_form').on('submit', function() {
-        submit_add_question($('#add_question_form').serializeArray());
+
+    $('#add_question_form').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        submit_add_question(formData);
         $('#add_question_form')[0].reset();
     });
-    $('#add_via_file').on('submit', function() {
-        $('#preload').removeClass('hidden');
-        submit_add_question_via_file();
-        $('#add_via_file')[0].reset();
-        $('#preload').removeClass('hidden');
-    });
+
     $('#select_all').on('change', function() {
         if(this.checked){
             $('.checkbox').each(function(){
@@ -28,7 +26,6 @@ $(function() {
     $('table').on('click', 'a.modal-trigger', function(){
         $('select').select();
         select_class();
-        // select_subject();
         var elem = document.querySelector(this.id);
         var instance = M.Modal.init(elem);
         var instance = M.Modal.getInstance(elem);
@@ -78,7 +75,6 @@ function get_list_questions() {
         var json_data = $.parseJSON(result);
         show_list_questions(json_data);
         select_class();
-        // select_subject();
         $('.modal').modal();
         $('select').select();
         $('#preload').addClass('hidden');
@@ -101,6 +97,7 @@ function show_list_questions(data) {
         tr.append('<td class="">' + data[i].answer_c + '</td>');
         tr.append('<td class="">' + data[i].answer_d + '</td>');
         tr.append('<td class="">' + data[i].correct_answer + '</td>');
+        tr.append('<td class="">' + data[i].img + '</td>');
         tr.append('<td class="">' + question_edit_button(data[i]) + '<br />' + question_del_button(data[i]) + '</td>');
         list.append(tr);
     }
@@ -121,7 +118,7 @@ function show_list_questions(data) {
             },
         },
         "aoColumnDefs": [
-        { "bSortable": false, "aTargets": [ 0, 9 ] }, //hide sort icon on header of column 0, 10
+        { "bSortable": false, "aTargets": [ 0, 10 ] }, //hide sort icon on header of column 0, 10
         ],
         'aaSorting': [[1, 'asc']] // start to sort data in second column
     }  );
@@ -129,6 +126,7 @@ function show_list_questions(data) {
         event.preventDefault();
     });
 }
+
 
 function question_edit_button(data) {
     return btn = '<a class="waves-effect waves-light btn modal-trigger" style="margin-bottom: 7px;" href="#edit-' + data.question_id + '" id="#edit-' + data.question_id + '">Sửa</a>' +
@@ -172,6 +170,10 @@ function question_edit_button(data) {
     '<input name="unit" type="number" required value="' + data.unit + '">' +
     '<label class="active">Chương</label>' +
     '</div>' +
+    '<div class="input-field">' +
+    '<label for="img" class="active">Hình ảnh</label>' +
+    '<input type="text" id="img" name="img" value="' + data.img + '" required>' +
+    '</div>' +
     '</div>' +
     '</div>' +
     '</div></div>' +
@@ -191,54 +193,20 @@ function question_del_button(data) {
     '<button type="submit" class="waves-effect waves-green btn-flat modal-action modal-close">Đồng Ý</button></div></form></div>';
 }
 
-function submit_add_question(data) {
-    $('#preload').removeClass('hidden');
-    var url = "index.php?action=check_add_question";
-    var success = function(result) {
-        var json_data = $.parseJSON(result);
-        show_status(json_data);
-        if (json_data.status) {
-            $('#table_questions').DataTable().destroy();
-            get_list_questions();
+function submit_add_question(formData) {
+    $.ajax({
+        type: 'POST',
+        url: 'index.php?action=check_add_question',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            console.log(result);
+            var json_data = $.parseJSON(result);
+            show_status(json_data);
+            $('#loading').css('display', 'none');
         }
-        $('#preload').addClass('hidden');
-    };
-    $.post(url, data, success);
-}
-
-function submit_add_question_via_file() {
-    $('#preload').removeClass('hidden');
-    $('#error').text('');
-    var file_data = $('#file_data').prop('files')[0];
-    var subject = $('#_subject').val();
-    var type = file_data.type;
-    var size = file_data.size;
-    var match = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
-    if (type == match[0] || type == match[1]) {
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        form_data.append('subject_id', subject);
-        $.ajax({
-            url: 'index.php?action=check_add_question_via_file',
-            dataType: 'text',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'post',
-            success: function(result) {
-                var json_data = $.parseJSON(result);
-                show_status(json_data);
-                $('#table_questions').DataTable().destroy();
-                get_list_questions();
-                $('.modal').modal();
-                $('select').select();
-            }
-        });
-    } else {
-        $('#error').text('Sai định dạng mẫu, yêu cầu file excel đuôi .xlsx theo mẫu. Nếu file lỗi vui lòng tải lại mẫu và điền lại.');
-    }
-    $('#preload').addClass('hidden');
+    });
 }
 
 function submit_del_question(data) {

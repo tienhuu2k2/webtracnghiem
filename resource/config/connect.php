@@ -1,3 +1,2 @@
 <?php
-return (object) array('host' => 'localhost','user' => 'root','password' => '','dbname' => 'ttttxm','INSTALL_MODE' => FALSE);
-?>
+return (object) array('host' => 'localhost', 'user' => 'root', 'password' => '', 'dbname' => 'ttxm', 'INSTALL_MODE' => FALSE);

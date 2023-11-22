@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?=Config::TITLE?>
+        <?= Config::TITLE ?>
     </title>
     <link rel="stylesheet" href="res/css/style.min.css">
     <link rel="stylesheet" href="res/css/font-awesome.css">
@@ -35,8 +35,7 @@
                             </div>
                         </div>
                         <div class="left-align" style="color: #3c763d;">
-                            <div id="hi" style="display: none;">Xin Chào: <b><span id="hi-text"
-                                        style="color: blue; font-weight: bold"></span></b>, nhập mật khẩu để tiếp tục.
+                            <div id="hi" style="display: none;">Xin Chào: <b><span id="hi-text" style="color: blue; font-weight: bold"></span></b>, nhập mật khẩu để tiếp tục.
                             </div>
                         </div>
                         <div class="input-field" id="field_password">
@@ -44,11 +43,16 @@
                             <label for="password" id="lbl_pw" class="hidden">Mật Khẩu</label>
                         </div>
                         <div class="login-btn">
-                            <button type="submit" class="btn waves-effect waves-light green darken-4"
-                                onclick="submit_login()" id="btn-login">Đăng Nhập</button>
-                            <button class="btn waves-effect waves-light orange darken-1"
-                                onclick="submit_forgot_password()" id="btn-fotgot">Quên MK?
+                            <button type="submit" class="btn waves-effect waves-light green darken-4" onclick="submit_login()" id="btn-login">Đăng Nhập
                             </button>
+
+                            <a href="index.php?action=show_signup" class="btn waves-effect waves-light orange darken-1" id="btn-fotgot">
+                            Đăng ký
+                                <!-- <button class="btn waves-effect waves-light orange darken-1" onclick="" id="btn-signup">
+                                    submit_forgot_password()  btn-fotgot
+                                </button> -->
+                            </a>
+
                         </div>
                     </form>
                 </div>

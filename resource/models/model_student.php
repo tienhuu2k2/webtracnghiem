@@ -4,6 +4,25 @@ include_once('config/database.php');
 
 class Model_Student extends Database
 {
+	// add student
+	public function add_student($name, $username, $password, $email, $birthday, $gender, $class_id)
+    {
+        $sql = "SELECT student_id FROM students WHERE username = '$username' OR email = '$email' ";
+        $this->set_query($sql);
+        if ($this->load_row() != '') {
+            return false;
+        }
+        //reset AUTO_INCREMENT
+        $sql = "ALTER TABLE `students` AUTO_INCREMENT=1";
+        $this->set_query($sql);
+        $this->execute_return_status();
+        $sql = "INSERT INTO students (name, username, password, email, birthday, gender_id, class_id) VALUES ('$name', '$username', '$password', '$email', '$birthday', '$gender', '1')";
+        $this->set_query($sql);
+        return $this->execute_return_status();
+        // return true;
+    }
+
+
 	public function get_profiles($username)
 	{
 		$sql = "SELECT students.student_id as ID,students.username,students.name,students.email,students.avatar,students.birthday,students.last_login,genders.gender_id,genders.gender_detail,students.doing_exam,students.time_remaining FROM `students`
@@ -94,7 +113,7 @@ class Model_Student extends Database
 	public function get_list_tests()
 	{
 		$sql = "
-		SELECT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,statuses.status_id,statuses.detail as status FROM `tests`
+		SELECT tests.test_code,tests.test_name,tests.total_questions,tests.time_to_do,tests.note,statuses.status_id,statuses.detail as status FROM `tests`
 		INNER JOIN statuses ON statuses.status_id = tests.status_id";
 		$this->set_query($sql);
 		return $this->load_rows();
@@ -113,12 +132,17 @@ class Model_Student extends Database
 		$this->set_query($sql);
 		return $this->load_rows();
 	}
+
+	
+
 	public function add_student_quest($student_id, $ID, $test_code, $question_id, $answer_a, $answer_b, $answer_c, $answer_d)
 	{
 		$sql = "INSERT INTO `student_test_detail` (`student_id`,`ID`,`test_code`, `question_id`, `answer_a`, `answer_b`, `answer_c`, `answer_d`) VALUES ($student_id, $ID, $test_code, $question_id, '$answer_a', '$answer_b', '$answer_c', '$answer_d');";
 		$this->set_query($sql);
 		return $this->execute_return_status();
 	}
+
+
 	public function get_doing_quest($test_code,$student_id)
 	{
 		$sql = "SELECT *,questions.question_content FROM student_test_detail

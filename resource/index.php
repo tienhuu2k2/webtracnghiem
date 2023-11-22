@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Index Site
- * Author: Dzu
- * Mail: dzu6996@gmail.com
- **/
-
 require_once 'config/config.php';
 date_default_timezone_set(Config::TIMEZONE);
 session_start();
@@ -33,6 +27,7 @@ if ($is_IM->INSTALL_MODE) {
     } else {
         $action = $_GET['action'];
     }
+    
     require_once 'controllers/controller_login.php';
     $login = new Controller_Login();
     if (is_callable([$login, $action])) {
@@ -41,4 +36,4 @@ if ($is_IM->INSTALL_MODE) {
         header("Refresh:0; url=index.php");
         $login->show_login();
     }
-}
+} 

@@ -44,7 +44,6 @@
                     class="material-icons">send</i>Trò Chuyện</a>
             <a href="index.php?action=show_notifications" class="collapsible-header font-color cursor"><i
                     class="material-icons">send</i>Xem Thông Báo</a>
-            <!-- <a href="index.php?action=show_about" class="collapsible-header font-color cursor"><i class="material-icons">insert_comment</i>Liên Hệ</a> -->
         </ul>
     </div>
     <a data-target="modal1" class="sidebar-show logout modal-trigger waves-effect" id="logout">Đăng Xuất</a>

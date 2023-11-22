@@ -104,6 +104,7 @@ class Model_Admin extends Database
         }
         return true;
     }
+
     public function add_admin($name, $username, $password, $email, $birthday, $gender)
     {
         $sql = "SELECT admin_id FROM admins WHERE username = '$username' OR email = '$email'";
@@ -120,6 +121,8 @@ class Model_Admin extends Database
         return $this->execute_return_status();
         // return true;
     }
+
+
     public function get_list_students()
     {
         $sql = "
@@ -152,7 +155,8 @@ class Model_Admin extends Database
         }
         return true;
     }
-    public function add_student($username, $password, $name, $email, $birthday, $gender)
+
+    public function add_student($username, $password, $name, $email, $birthday, $gender, $class_id)
     {
         $sql = "SELECT student_id FROM students WHERE username = '$username' OR email = '$email";
         $this->set_query($sql);
@@ -163,11 +167,12 @@ class Model_Admin extends Database
         $sql = "ALTER TABLE `students` AUTO_INCREMENT=1";
         $this->set_query($sql);
         $this->execute_return_status();
-        $sql = "INSERT INTO students (username,password,name,email,birthday,gender_id) VALUES ('$username','$password','$name','$email','$birthday','$gender')";
+        $sql = "INSERT INTO students (username,password,name,email,birthday,gender_id, class_id) VALUES ('$username','$password','$name','$email','$birthday','$gender', $class_id)";
         $this->set_query($sql);
         return $this->execute_return_status();
         // return true;
     }
+
     public function get_list_classes()
     {
         $sql = "
@@ -242,7 +247,7 @@ class Model_Admin extends Database
     public function get_list_questions()
     {
         $sql = "
-        SELECT questions.question_id,questions.question_content,questions.unit,classes.class_name, questions.answer_a,questions.answer_b,questions.answer_c,questions.answer_d,questions.correct_answer FROM `questions`
+        SELECT questions.question_id,questions.question_content,questions.unit,classes.class_name, questions.answer_a,questions.answer_b,questions.answer_c,questions.answer_d,questions.correct_answer, questions.img FROM `questions`
         INNER JOIN classes ON classes.class_id = questions.class_id";
         $this->set_query($sql);
         return $this->load_rows();
@@ -250,7 +255,7 @@ class Model_Admin extends Database
     public function get_list_tests()
     {
         $sql = "
-        SELECT tests.test_code,tests.test_name,tests.password,tests.total_questions,tests.time_to_do,tests.note,classes.class_name,statuses.status_id,statuses.detail as status FROM `tests`
+        SELECT tests.test_code,tests.test_name,tests.total_questions,tests.time_to_do,tests.note,classes.class_name,statuses.status_id,statuses.detail as status FROM `tests`
         INNER JOIN classes ON classes.class_id = tests.class_id
         INNER JOIN statuses ON statuses.status_id = tests.status_id";
         $this->set_query($sql);
@@ -259,7 +264,7 @@ class Model_Admin extends Database
     public function get_question_info($ID)
     {
         $sql = "
-        SELECT questions.ID,questions.question_detail,classes.class_name, questions.answer_a,questions.answer_b,questions.answer_c,questions.answer_d,questions.correct_answer FROM `questions`
+        SELECT questions.ID,questions.question_detail,classes.class_name, questions.answer_a,questions.answer_b,questions.answer_c,questions.answer_d,questions.correct_answer, questions.img FROM `questions`
         INNER JOIN classes ON classes.class_id = questions.class_id";
         $this->set_query($sql);
         return $this->load_row();
@@ -271,9 +276,9 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->load_rows();
     }
-    public function edit_question($question_id, $question_content, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer)
+    public function edit_question($question_id, $question_content, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer, $img)
     {
-        $sql = "UPDATE questions set question_content='$question_content', class_id='$class_id', unit ='$unit',answer_a ='$answer_a',answer_b ='$answer_b',answer_c ='$answer_c',answer_d ='$answer_d',correct_answer ='$correct_answer' where question_id = '$question_id'";
+        $sql = "UPDATE questions set question_content='$question_content', class_id='$class_id', unit ='$unit',answer_a ='$answer_a',answer_b ='$answer_b',answer_c ='$answer_c',answer_d ='$answer_d',correct_answer ='$correct_answer', img='$img' where question_id = '$question_id'";
         $this->set_query($sql);
         return $this->execute_return_status();
     }
@@ -283,15 +288,37 @@ class Model_Admin extends Database
         $this->set_query($sql);
         return $this->execute_return_status();
     }
-    public function add_question($question_detail, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer)
+    public function add_question($question_detail, $class_id, $unit, $answer_a, $answer_b, $answer_c, $answer_d, $correct_answer, $img)
     {
-        $sql = "INSERT INTO questions (class_id,unit,question_content,answer_a,answer_b,answer_c,answer_d,correct_answer) VALUES ($class_id,$unit,'$question_detail','$answer_a','$answer_b','$answer_c','$answer_d','$correct_answer')";
+        $sql = "INSERT INTO questions (class_id,unit,question_content,answer_a,answer_b,answer_c,answer_d,correct_answer, img) VALUES ($class_id,$unit,'$question_detail','$answer_a','$answer_b','$answer_c','$answer_d','$correct_answer', '$img')";
+
         $this->set_query($sql);
         return $this->execute_return_status();
     }
-    public function add_test($test_code, $test_name, $password, $class_id, $total_questions, $time_to_do, $note)
+    public function del_test($test_code)
     {
-        $sql = "INSERT INTO tests (test_code,test_name,password,class_id,total_questions,time_to_do,note,status_id) VALUES ($test_code,'$test_name', '$password', $class_id, $total_questions, $time_to_do, '$note', 2)";
+        $sql = "DELETE FROM  quest_of_test where test_code='$test_code'";
+        $this->set_query($sql);
+        $this->execute_return_status();
+        $sql = "DELETE FROM  student_test_detail where test_code='$test_code'";
+        $this->set_query($sql);
+        $this->execute_return_status();
+        $sql = "DELETE FROM  scores where test_code='$test_code'";
+        $this->set_query($sql);
+        $this->execute_return_status();
+        $sql = "DELETE FROM tests where test_code='$test_code'";
+        $this->set_query($sql);
+        $this->execute_return_status();
+        $sql = "SELECT test_name FROM tests WHERE test_code = '$test_code'";
+        $this->set_query($sql);
+        if ($this->load_row() != '') {
+            return false;
+        }
+        return true;
+    }
+    public function add_test($test_code, $test_name, $class_id, $total_questions, $time_to_do, $note)
+    {
+        $sql = "INSERT INTO tests (test_code,test_name,class_id,total_questions,time_to_do,note,status_id) VALUES ($test_code,'$test_name', $class_id, $total_questions, $time_to_do, '$note', 2)";
         $this->set_query($sql);
         return $this->execute_return_status();
     }

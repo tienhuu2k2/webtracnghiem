@@ -6,7 +6,62 @@ $(function() {
         submit_add_test($('#add_test_form').serializeArray());
         $('#add_test_form')[0].reset();
     });
+    $('#select_all').on('change', function() {
+        if(this.checked){
+            $('.checkbox').each(function(){
+                this.checked = true;
+            });
+            $('#select_action').removeClass('hidden');
+        }else{
+            $('.checkbox').each(function(){
+                this.checked = false;
+            });
+            $('#select_action').addClass('hidden');
+        }
+    });
+    $('table').on('click', 'a.modal-trigger', function(){
+        $('select').select();
+        var elem = document.querySelector(this.id);
+        var instance = M.Modal.init(elem);
+        var instance = M.Modal.getInstance(elem);
+        instance.open();
+    });
 });
+
+function check_box() {
+    $('#select_action').removeClass('hidden');
+    if($('.checkbox:checked').length == $('.checkbox').length){
+        $('#select_all').prop('checked',true);
+    }else{
+        $('#select_all').prop('checked',false);
+    }
+    if($('.checkbox:checked').length == 0) {
+        $('#select_action').addClass('hidden');
+    }
+}
+
+function delete_check() {
+    var _list_check = '';
+    $('.checkbox:checked').each(function(){
+        _list_check += this.value + ','
+    });
+    data = {
+        list_check : _list_check
+    }
+    $('#preload').removeClass('hidden');
+    var url = "index.php?action=delete_check_tests";
+    var success = function(result) {
+        var json_data = $.parseJSON(result);
+        show_status(json_data);
+        $('#table_tests').DataTable().destroy();
+        get_list_tests();
+        $('#select_all').prop('checked',false);
+        $('#select_action').addClass('hidden');
+        $('#preload').addClass('hidden');
+    };
+    $.post(url, data, success);
+    
+}
 
 function get_list_tests() {
     $('#preload').removeClass('hidden');
@@ -31,7 +86,7 @@ function show_list_tests(data) {
         tr.append('<td class="">' + data[i].class_name + '</td>');
         tr.append('<td class="">' + data[i].total_questions + ' câu hỏi, thời gian ' + data[i].time_to_do + ' phút <br />Ghi chú: ' + data[i].note + '</td>');
         tr.append('<td class="">' + data[i].status + '</td>');
-        tr.append('<td class="">' + toggle_status_button(data[i]) + '<br />' + test_detail_button(data[i])+ '<br />' + test_score_button(data[i]) + '</td>');
+        tr.append('<td class="">' + toggle_status_button(data[i]) + '<br />' + test_detail_button(data[i])+ '<br />' + test_del_button(data[i]) + '</td>');
         list.append(tr);
     }
     $('#table_tests').DataTable( {
@@ -68,8 +123,14 @@ function test_detail_button(data) {
     return btn = '<a class="waves-effect waves-light btn" style="margin-bottom: 7px;" href="index.php?action=test_detail&test_code=' + data.test_code + '">Chi Tiết Đề</a>';
 }
 
-function test_score_button(data) {
-    return btn = '<a class="waves-effect waves-light btn" href="index.php?action=test_score&test_code=' + data.test_code + '">Xem Điểm</a>';
+function test_del_button(data) {
+    return btn = '<a class="waves-effect waves-light btn modal-trigger" href="#del-' + data.test_code + '" id="#del-' + data.test_code + '">Xóa</a>' +
+    '<div id="del-' + data.test_code + '" class="modal"><div class="modal-content">' +
+    '<h5>Cảnh Báo</h5><p>Xác nhận xóa ' + data.test_name + '</p></div>' +
+    '<form action="" method="POST" role="form" onsubmit="submit_del_test(this.id)" id="form-del-test-' + data.test_code + '">' +
+    '<div class="modal-footer"><a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Trờ Lại</a>' +
+    '<input type="hidden" value="' + data.test_code + '" name="test_code">' +
+    '<button type="submit" class="waves-effect waves-green btn-flat modal-action modal-close">Đồng Ý</button></div></form></div>';
 }
 
 function submit_add_test(data) {
@@ -119,12 +180,8 @@ function list_unit() {
     var class_id = $('#class_id').val();
     if(class_id == null)
         class_id = 1;
-    // var subject_id = $('#subject_id').val();
-    // if(subject_id == null)
-    //     subject_id = 1;
     var data = {
         class_id: class_id,
-        // subject_id: subject_id
     }
     var div = $('#list_unit');
     var url = "index.php?action=get_list_units";
@@ -160,4 +217,20 @@ function update_total() {
             sum += parseInt(this.value);
         });
     $('#total_questions').val(sum);
+}
+
+function submit_del_test(data) {
+    $('#preload').removeClass('hidden');
+    data = $('#' + data).serializeArray();
+    var url = "index.php?action=check_del_test";
+    var success = function(result) {
+        var json_data = $.parseJSON(result);
+        show_status(json_data);
+        if (json_data.status) {
+            $('#table_tests').DataTable().destroy();
+            get_list_tests();
+        }
+        $('#preload').addClass('hidden');
+    };
+    $.post(url, data, success);
 }

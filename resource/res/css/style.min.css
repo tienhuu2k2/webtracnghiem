@@ -148,3 +148,19 @@
 .full-width { width: 100% !important; }
 
 /*# sourceMappingURL=style.min.css.map */
+
+
+/* css dang ky */
+#field_gender {
+  display: flex;
+  flex-direction: column;
+}
+
+#field_gender_option {
+  display: flex;
+  flex-direction: column;
+}
+
+#field_gender_option label {
+  margin-bottom: 10px; /* Khoảng cách giữa các ô radio */
+}

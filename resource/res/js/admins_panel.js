@@ -197,38 +197,38 @@ function submit_add_admin(data) {
     $.post(url, data, success);
 }
 
-function submit_add_admin_via_file() {
-    $('#preload').removeClass('hidden');
-    $('#error').text('');
-    var file_data = $('#file_data').prop('files')[0];
-    var type = file_data.type;
-    var size = file_data.size;
-    var match = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
-    if (type == match[0] || type == match[1]) {
-        var form_data = new FormData();
-        form_data.append('file', file_data);
-        $.ajax({
-            url: 'index.php?action=check_add_admin_via_file',
-            dataType: 'text',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'post',
-            success: function(result) {
-                var json_data = $.parseJSON(result);
-                show_status(json_data);
-                $('#table_admins').DataTable().destroy();
-                get_list_admins();
-                $('.modal').modal();
-                $('select').select();
-            }
-        });
-    } else {
-        $('#error').text('Sai định dạng mẫu, yêu cầu file excel đuôi .xlsx theo mẫu. Nếu file lỗi vui lòng tải lại mẫu và điền lại.');
-    }
-    $('#preload').addClass('hidden');
-}
+// function submit_add_admin_via_file() {
+//     $('#preload').removeClass('hidden');
+//     $('#error').text('');
+//     var file_data = $('#file_data').prop('files')[0];
+//     var type = file_data.type;
+//     var size = file_data.size;
+//     var match = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
+//     if (type == match[0] || type == match[1]) {
+//         var form_data = new FormData();
+//         form_data.append('file', file_data);
+//         $.ajax({
+//             url: 'index.php?action=check_add_admin_via_file',
+//             dataType: 'text',
+//             cache: false,
+//             contentType: false,
+//             processData: false,
+//             data: form_data,
+//             type: 'post',
+//             success: function(result) {
+//                 var json_data = $.parseJSON(result);
+//                 show_status(json_data);
+//                 $('#table_admins').DataTable().destroy();
+//                 get_list_admins();
+//                 $('.modal').modal();
+//                 $('select').select();
+//             }
+//         });
+//     } else {
+//         $('#error').text('Sai định dạng mẫu, yêu cầu file excel đuôi .xlsx theo mẫu. Nếu file lỗi vui lòng tải lại mẫu và điền lại.');
+//     }
+//     $('#preload').addClass('hidden');
+// }
 
 function submit_del_admin(data) {
     $('#preload').removeClass('hidden');
@@ -255,8 +255,6 @@ function submit_edit_admin(data) {
         var json_data = $.parseJSON(result);
         show_status(json_data);
         if (json_data.status) {
-            // $('#admin-' + json_data.admin_id).remove();
-            // admin_insert_data(json_data);
             $('#table_admins').DataTable().destroy();
             get_list_admins();
             form[0].reset();
